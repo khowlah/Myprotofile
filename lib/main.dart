@@ -248,13 +248,21 @@ class HeroText extends StatelessWidget {
   // ============================================================
   // DOWNLOAD CV
   // ============================================================
+void _downloadCV() {
+  final basePath = html.window.location.pathname
+      .split('/')
+      .where((part) => part.isNotEmpty)
+      .first;
 
-  void _downloadCV() {
-  final anchor = html.AnchorElement(
-    href: 'assets/assets/cv/khawlah_cv.pdf',
-  )
+  final cvUrl = '/$basePath/assets/assets/cv/khawlah_cv.pdf';
+
+  final anchor = html.AnchorElement(href: cvUrl)
     ..setAttribute('download', 'khawlah_cv.pdf')
-    ..click();
+    ..style.display = 'none';
+
+  html.document.body?.append(anchor);
+  anchor.click();
+  anchor.remove();
 }
 
   @override

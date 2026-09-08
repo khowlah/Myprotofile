@@ -249,7 +249,9 @@ class HeroText extends StatelessWidget {
   // DOWNLOAD CV
   // ============================================================
 void _downloadCV() {
-  final basePath = html.window.location.pathname
+  final pathname = html.window.location.pathname ?? '/';
+
+  final basePath = pathname
       .split('/')
       .where((part) => part.isNotEmpty)
       .first;

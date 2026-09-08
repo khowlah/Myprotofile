@@ -143,7 +143,7 @@ class _AboutIntroduction extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Junior Flutter Developer',
+          ' Flutter Developer',
           style: TextStyle(
             color: AppColors.white,
             fontSize: 24,
@@ -154,7 +154,7 @@ class _AboutIntroduction extends StatelessWidget {
         const SizedBox(height: 18),
 
         const Text(
-          'I am a Software Engineering student focused on '
+          'I am a Software Engineering  focused on '
           'building practical, responsive, and user-friendly '
           'applications with Flutter and Dart.',
           style: TextStyle(

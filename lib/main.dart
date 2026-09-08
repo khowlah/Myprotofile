@@ -250,10 +250,12 @@ class HeroText extends StatelessWidget {
   // ============================================================
 
   void _downloadCV() {
-    final anchor = html.AnchorElement(href: 'assets/cv/khawlah_cv.pdf')
-      ..setAttribute('download', 'khawlah_cv.pdf')
-      ..click();
-  }
+  final anchor = html.AnchorElement(
+    href: 'assets/assets/cv/khawlah_cv.pdf',
+  )
+    ..setAttribute('download', 'khawlah_cv.pdf')
+    ..click();
+}
 
   @override
   Widget build(BuildContext context) {

@@ -53,19 +53,26 @@ class HomePage extends StatelessWidget {
                 margin: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: AppColors.background,
-                  border: Border.all(color: AppColors.white.withOpacity(0.18)),
+                  border: Border.all(
+                    color: AppColors.white.withOpacity(0.18),
+                  ),
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: isMobile
                     ? const SingleChildScrollView(
                         child: Column(
-                          children: [NavigationBar(), HeroSection()],
+                          children: [
+                            NavigationBar(),
+                            HeroSection(),
+                          ],
                         ),
                       )
                     : const Column(
                         children: [
                           NavigationBar(),
-                          Expanded(child: HeroSection()),
+                          Expanded(
+                            child: HeroSection(),
+                          ),
                         ],
                       ),
               ),
@@ -89,7 +96,10 @@ class NavigationBar extends StatelessWidget {
     final bool isMobile = MediaQuery.of(context).size.width < 800;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 20 : 35,
+        vertical: isMobile ? 18 : 25,
+      ),
       child: Row(
         children: [
           Row(
@@ -117,16 +127,23 @@ class NavigationBar extends StatelessWidget {
 
           const Spacer(),
 
+          // Desktop Navigation
           if (!isMobile)
             Row(
               children: [
-                _NavItem(title: 'Home', active: true, onTap: () {}),
+                _NavItem(
+                  title: 'Home',
+                  active: true,
+                  onTap: () {},
+                ),
                 _NavItem(
                   title: 'About',
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const AboutPage()),
+                      MaterialPageRoute(
+                        builder: (_) => const AboutPage(),
+                      ),
                     );
                   },
                 ),
@@ -136,7 +153,7 @@ class NavigationBar extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ProjectsPage(),
+                        builder: (_) => const ProjectsPage(),
                       ),
                     );
                   },
@@ -144,14 +161,18 @@ class NavigationBar extends StatelessWidget {
               ],
             ),
 
-          const SizedBox(width: 25),
+          if (!isMobile)
+            const SizedBox(width: 25),
 
+          // Desktop Contact Button
           if (!isMobile)
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ContactPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const ContactPage(),
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -166,7 +187,94 @@ class NavigationBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: const Text('Contact Me', style: TextStyle(fontSize: 12)),
+              child: const Text(
+                'Contact Me',
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+
+          // Mobile Menu
+          if (isMobile)
+            PopupMenuButton<String>(
+              icon: const Icon(
+                Icons.menu,
+                color: AppColors.white,
+                size: 27,
+              ),
+              color: AppColors.backgroundSecondary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              onSelected: (value) {
+                if (value == 'home') {
+                  return;
+                }
+
+                if (value == 'about') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AboutPage(),
+                    ),
+                  );
+                }
+
+                if (value == 'projects') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ProjectsPage(),
+                    ),
+                  );
+                }
+
+                if (value == 'contact') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ContactPage(),
+                    ),
+                  );
+                }
+              },
+              itemBuilder: (context) => const [
+                PopupMenuItem(
+                  value: 'home',
+                  child: Text(
+                    'Home',
+                    style: TextStyle(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'about',
+                  child: Text(
+                    'About',
+                    style: TextStyle(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'projects',
+                  child: Text(
+                    'Projects',
+                    style: TextStyle(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'contact',
+                  child: Text(
+                    'Contact Me',
+                    style: TextStyle(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
         ],
       ),
@@ -198,9 +306,13 @@ class _NavItem extends StatelessWidget {
         child: Text(
           title,
           style: TextStyle(
-            color: active ? AppColors.teal : AppColors.white.withOpacity(0.65),
+            color: active
+                ? AppColors.teal
+                : AppColors.white.withOpacity(0.65),
             fontSize: 13,
-            fontWeight: active ? FontWeight.w600 : FontWeight.w400,
+            fontWeight: active
+                ? FontWeight.w600
+                : FontWeight.w400,
           ),
         ),
       ),
@@ -226,12 +338,22 @@ class HeroSection extends StatelessWidget {
       ),
       child: isMobile
           ? const Column(
-              children: [HeroText(), SizedBox(height: 40), HeroImage()],
+              children: [
+                HeroText(),
+                SizedBox(height: 40),
+                HeroImage(),
+              ],
             )
           : const Row(
               children: [
-                Expanded(flex: 5, child: HeroText()),
-                Expanded(flex: 5, child: HeroImage()),
+                Expanded(
+                  flex: 5,
+                  child: HeroText(),
+                ),
+                Expanded(
+                  flex: 5,
+                  child: HeroImage(),
+                ),
               ],
             ),
     );
@@ -248,24 +370,25 @@ class HeroText extends StatelessWidget {
   // ============================================================
   // DOWNLOAD CV
   // ============================================================
-void _downloadCV() {
-  final pathname = html.window.location.pathname ?? '/';
 
-  final basePath = pathname
-      .split('/')
-      .where((part) => part.isNotEmpty)
-      .first;
+  void _downloadCV() {
+    final pathname = html.window.location.pathname ?? '/';
 
-  final cvUrl = '/$basePath/assets/assets/cv/khawlah_cv.pdf';
+    final basePath = pathname
+        .split('/')
+        .where((part) => part.isNotEmpty)
+        .first;
 
-  final anchor = html.AnchorElement(href: cvUrl)
-    ..setAttribute('download', 'khawlah_cv.pdf')
-    ..style.display = 'none';
+    final cvUrl = '/$basePath/assets/assets/cv/khawlah_cv.pdf';
 
-  html.document.body?.append(anchor);
-  anchor.click();
-  anchor.remove();
-}
+    final anchor = html.AnchorElement(href: cvUrl)
+      ..setAttribute('download', 'khawlah_cv.pdf')
+      ..style.display = 'none';
+
+    html.document.body?.append(anchor);
+    anchor.click();
+    anchor.remove();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +414,9 @@ void _downloadCV() {
 
         Text(
           'Khawlah\nAbdullah',
-          textAlign: isMobile ? TextAlign.center : TextAlign.left,
+          textAlign: isMobile
+              ? TextAlign.center
+              : TextAlign.left,
           style: TextStyle(
             color: AppColors.white,
             fontSize: isMobile ? 48 : 68,
@@ -306,7 +431,11 @@ void _downloadCV() {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(width: 45, height: 2, color: AppColors.burgundy),
+            Container(
+              width: 45,
+              height: 2,
+              color: AppColors.burgundy,
+            ),
             const SizedBox(width: 12),
             const Text(
               'FLUTTER DEVELOPER',
@@ -328,7 +457,9 @@ void _downloadCV() {
             'I build clean, practical and beautiful digital '
             'experiences using Flutter, Dart and modern '
             'database technologies.',
-            textAlign: isMobile ? TextAlign.center : TextAlign.left,
+            textAlign: isMobile
+                ? TextAlign.center
+                : TextAlign.left,
             style: const TextStyle(
               color: AppColors.grey,
               fontSize: 15,
@@ -346,7 +477,9 @@ void _downloadCV() {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProjectsPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const ProjectsPage(),
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -363,7 +496,10 @@ void _downloadCV() {
               ),
               child: const Text(
                 'View My Work',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
 
@@ -373,7 +509,9 @@ void _downloadCV() {
               onPressed: _downloadCV,
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.white,
-                side: BorderSide(color: AppColors.white.withOpacity(0.25)),
+                side: BorderSide(
+                  color: AppColors.white.withOpacity(0.25),
+                ),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 27,
                   vertical: 16,
@@ -382,7 +520,10 @@ void _downloadCV() {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: const Text('My CV', style: TextStyle(fontSize: 13)),
+              child: const Text(
+                'My CV',
+                style: TextStyle(fontSize: 13),
+              ),
             ),
           ],
         ),
